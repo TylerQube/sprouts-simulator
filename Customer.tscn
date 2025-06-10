@@ -1,0 +1,139 @@
+[gd_scene load_steps=20 format=3 uid="uid://b0d3xqwq8q7cl"]
+
+[ext_resource type="Script" path="res://customer/Customer.gd" id="1_uxs3d"]
+[ext_resource type="Texture2D" uid="uid://b88fcc4wwyimv" path="res://assets/char/walk_down/down.png" id="2_of0g5"]
+[ext_resource type="Shader" path="res://Outline.gdshader" id="2_ond3i"]
+[ext_resource type="Texture2D" uid="uid://c3nuq11y655rp" path="res://assets/char/sit/sit_right.png" id="3_jbacu"]
+[ext_resource type="Texture2D" uid="uid://cpsh16u4ck4r3" path="res://assets/char/walk_down/walk1.png" id="3_paxrj"]
+[ext_resource type="Texture2D" uid="uid://kkt15r5b00hi" path="res://assets/char/sit/sit_up.png" id="3_whpq7"]
+[ext_resource type="Texture2D" uid="uid://2cetnnp0wg57" path="res://assets/char/walk_down/walk2.png" id="4_byvrp"]
+[ext_resource type="Texture2D" uid="uid://bp2momv1uv34b" path="res://assets/char/right.png" id="5_w2yhr"]
+[ext_resource type="Texture2D" uid="uid://ciwkqsg1hu75e" path="res://assets/char/walk_right/walk1.png" id="6_7lq4a"]
+[ext_resource type="Texture2D" uid="uid://b2sfby8u2v3ip" path="res://assets/char/walk_right/walk2.png" id="7_aiy0q"]
+[ext_resource type="Texture2D" uid="uid://iljipbmoxpt1" path="res://assets/char/walk_up/up.png" id="8_djmto"]
+[ext_resource type="Texture2D" uid="uid://wlmi5uvc7b25" path="res://assets/char/walk_up/walk1.png" id="9_yoog2"]
+[ext_resource type="Texture2D" uid="uid://clu58fdeva3fc" path="res://assets/char/walk_up/walk2.png" id="10_ici3e"]
+[ext_resource type="Texture2D" uid="uid://conwvugj8ngq4" path="res://assets/order/speech_bubble.png" id="11_05g26"]
+[ext_resource type="Texture2D" uid="uid://by48p3amov2wk" path="res://assets/order/items/carrot_lox.png" id="12_jp12x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vy8t2"]
+resource_local_to_scene = true
+shader = ExtResource("2_ond3i")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ds2y6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_jbacu")
+}],
+"loop": true,
+"name": &"sit_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_whpq7")
+}],
+"loop": true,
+"name": &"sit_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_of0g5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_paxrj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_of0g5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_byvrp")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_w2yhr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_7lq4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_w2yhr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_aiy0q")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_djmto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_yoog2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_djmto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ici3e")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yu65j"]
+size = Vector2(12, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32lfq"]
+size = Vector2(17, 31)
+
+[node name="PathFollow2D" type="PathFollow2D"]
+y_sort_enabled = true
+rotates = false
+loop = false
+script = ExtResource("1_uxs3d")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+material = SubResource("ShaderMaterial_vy8t2")
+position = Vector2(0.5, 3.5)
+sprite_frames = SubResource("SpriteFrames_ds2y6")
+animation = &"sit_right"
+offset = Vector2(2.08165e-12, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_yu65j")
+
+[node name="ClickArea" type="Area2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/ClickArea"]
+position = Vector2(0.5, -13.5)
+shape = SubResource("RectangleShape2D_32lfq")
+
+[node name="SpeechBubble" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(20, -35)
+texture = ExtResource("11_05g26")
+
+[node name="Item" type="Sprite2D" parent="CharacterBody2D/SpeechBubble"]
+position = Vector2(0, -4)
+texture = ExtResource("12_jp12x")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="CharacterBody2D"]
+path_desired_distance = 1.0
+target_desired_distance = 7.0
+path_max_distance = 10.0
