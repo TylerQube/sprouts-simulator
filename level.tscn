@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cmau2kc2pmpqb"]
+[gd_scene load_steps=20 format=3 uid="uid://cmau2kc2pmpqb"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_7q2ng"]
 [ext_resource type="Script" path="res://Player.gd" id="1_mjm18"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://clu58fdeva3fc" path="res://assets/char/walk_up/walk2.png" id="10_0ykef"]
 [ext_resource type="PackedScene" uid="uid://cdx10yjwmstwt" path="res://cafe.tscn" id="11_2xiv6"]
 [ext_resource type="PackedScene" uid="uid://b6vaahlue6ajw" path="res://seat.tscn" id="13_c0g2u"]
+[ext_resource type="PackedScene" uid="uid://dqjj87hxxviuc" path="res://ticket_rail.tscn" id="14_0fk2e"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kekha"]
 animations = [{
@@ -159,6 +160,9 @@ position = Vector2(144, 134)
 
 [node name="Seat10" parent="." instance=ExtResource("13_c0g2u")]
 position = Vector2(125, 134)
+
+[node name="TicketRail" parent="." instance=ExtResource("14_0fk2e")]
+z_index = 3
 
 [editable path="Seat"]
 [editable path="Seat2"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqjj87hxxviuc"]
+
+[ext_resource type="Script" path="res://order/TicketRail.gd" id="1_qmhmm"]
+[ext_resource type="Texture2D" uid="uid://dewi5fivc1o6k" path="res://assets/order/ticket_rail.png" id="2_bpt7g"]
+
+[node name="TicketRail" type="Node2D"]
+script = ExtResource("1_qmhmm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_bpt7g")
+centered = false

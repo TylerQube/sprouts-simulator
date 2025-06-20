@@ -11,8 +11,6 @@ func set_seat(new_seat: CafeSeat, mesh: NavigationRegion2D):
 	seat.occupied = true
 	nav_mesh = mesh
 
-
-
 var anim
 func set_anim(dir: Vector2):
 	match dir:
@@ -70,6 +68,7 @@ var speech_bubble
 var order_item
 var outline
 var agent
+var ticket_rail
 
 func set_state(state: CustomerState):
 	if self.state:
@@ -86,8 +85,8 @@ func _ready():
 	self.order.setup(self)
 	$CharacterBody2D/AnimatedSprite2D.material.set_shader_parameter("width", 0)
 	self.speech_bubble = $CharacterBody2D/SpeechBubble
-	order_item = $CharacterBody2D/SpeechBubble/Item	
-	agent = $CharacterBody2D/NavigationAgent2D	
+	self.order_item = $CharacterBody2D/SpeechBubble/Item	
+	self.agent = $CharacterBody2D/NavigationAgent2D	
 	
 	set_state(QueueState.new())
 

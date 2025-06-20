@@ -2,11 +2,14 @@ extends Node2D
 
 var cafeSeats: Array[Node2D] = []
 
+
 var customer = load("res://Customer.tscn")
 var customers: Array[Customer] = []
 func spawnCustomer():
 	var path = $CustomerPath
+	var ticket_rail = $TicketRail
 	var cust = customer.instantiate()
+	cust.ticket_rail = ticket_rail
 	if len(customers) > 0:
 		cust.neighbor_ahead = customers[len(customers)-1]
 	
@@ -17,7 +20,7 @@ func spawnCustomer():
 
 	path.add_child(cust)
 	customers.append(cust)
-
+	
 # Called when the node enters the scene tree for the first time.
 var NUM_CUSTS = 10
 var rng = RandomNumberGenerator.new()

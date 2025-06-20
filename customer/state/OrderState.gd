@@ -22,5 +22,5 @@ func exit():
 	print("hide speech bubble")
 	customer.speech_bubble.visible = false
 	self.cust_sprite.material.set_shader_parameter("width", 0)
-	self.customer.order.ticket.display()
+	self.customer.ticket_rail.add_ticket(self.customer.order.ticket)
 

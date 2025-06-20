@@ -22,6 +22,5 @@ func setup(customer: Customer):
 	self.texture = load(path) as Texture2D
 	
 	self.ticket = ticket_scene.instantiate()
-	self.customer.add_child(ticket)
 	
 	self.ticket.set_texture(item, path)
