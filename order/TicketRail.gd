@@ -1,55 +1,108 @@
 extends Node2D
-
 const TICKET_GAP_PX = 2
 const MAX_TICKETS = 4
-
 var ticket_width
+var tickets: Array[OrderTicket] # tickets on visible rail
+var ticket_queue: Array[OrderTicket] # overflow tickets
+
+func is_rail_full():
+	return num_tickets() >= 4
+
+func num_tickets():
+	return len(tickets.filter(func(t): return t))
 
 func add_ticket(ticket: OrderTicket):
-	self.add_child(ticket)
-	ticket.get_node("Ticket/ClickArea").connect("input_event", _detect_click.bind(ticket))
-	ticket_width = ticket.paper_sprite.texture.get_size().x
-	ticket.global_position = global_position
-	ticket.global_position.x = -15
-	
-	var num_overflow = max(0, len(tickets) - MAX_TICKETS)
-	ticket.global_position.x -= 26 * num_overflow
-	ticket.global_position.y += 2
-	
-	tickets.append(ticket)	
-	
-	if len(tickets) <= MAX_TICKETS:
-		await slide_tickets(tickets.slice(0, -1))
-		ticket.get_node("AnimationPlayer").play("slide_in")
-	
-	
-func slide_tickets(arr: Array[OrderTicket]):
-	var ticket_offset = (ticket_width + TICKET_GAP_PX)
-	for t in arr:
-		t.position.x += ticket_offset
-		t.get_node("Ticket").position.x = 0
-		t.get_node("AnimationPlayer").play("slide_in")
-		await get_tree().create_timer(0.1).timeout
-
-func _detect_click(viewport: Viewport, event: InputEvent, shape_idx: int, ticket: OrderTicket):
-	if !event.is_action_pressed("click"):
+	if is_rail_full():
+		ticket_queue.append(ticket)
 		return
-	print("clicked")
+		
+	var first_gap = tickets.find(null)
+		
+	# slide tickets to the right
+	for i in range(first_gap, 0, -1):
+		if tickets[i-1] == null:
+			continue
+		tickets[i] = tickets[i-1]
+		await slide_ticket(tickets[i])		
 	
-	ticket.get_node("AnimationPlayer").play("yank")
-	await ticket.get_node("AnimationPlayer").animation_finished
+	tickets[0] = ticket
 	
+	self.add_child(ticket)
+	
+	ticket.get_node("Ticket/ClickArea").connect("input_event", detect_click.bind(ticket))
+	ticket_width = ticket.paper_sprite.texture.get_size().x
+	ticket.position = Vector2(-40, 0)
+	
+	slide_ticket(ticket)
+
+func remove_ticket(ticket: OrderTicket, success: bool = false):
 	var ind = tickets.find(ticket)
-	if ind < len(tickets)-1:
-		await slide_tickets(tickets.slice(ind+1, len(tickets)))
-	tickets.pop_at(ind)
+	
+	var player = ticket.get_node("AnimationPlayer")
+	tickets[ind] = null
+	
+	if success:
+		player.play("yank")
+		await player.animation_finished
+		remove_child(ticket)
+	else:
+		print("failed ticket!")
+		fail_ticket(ticket)
+		await get_tree().create_timer(2).timeout
+		
+		
+	
+	for i in range(ind, 0, -1):
+		if tickets[i-1] == null:
+			continue
+		print("sliding right after removal...")
+		tickets[i] = tickets[i-1]
+		tickets[i-1] = null
+		await slide_ticket(tickets[i])
+	
+	
+	if not is_rail_full():
+		var next_ticket = ticket_queue.pop_front()
+		if next_ticket == null:
+			return
+		add_ticket(next_ticket)
+		
+func fail_ticket(ticket: OrderTicket):
+	print(ticket.position.x)
+	var ticket_offset = (ticket_width + TICKET_GAP_PX)
+	ticket.position.x += 28
+	ticket.get_node("Ticket").position.x = 0
+	var player = ticket.get_node("AnimationPlayer")
+	player.speed_scale = 1
+	player.play("fall_2")
+	await player.animation_finished
 	remove_child(ticket)
 	
-var tickets: Array[OrderTicket]
+
+func print_tix():
+	for i in range(len(tickets)):
+		var t = tickets[i]
+		if t == null:
+			print("Slot ", i, ": null")
+		else:
+			print("Slot ", i, " item: ", t.path, " pos=", t.position, )
+
+func slide_ticket(ticket: OrderTicket):
+	var ticket_offset = (ticket_width + TICKET_GAP_PX)
+	ticket.position.x += ticket_offset
+	ticket.get_node("Ticket").position.x = 0
+	ticket.get_node("AnimationPlayer").play("slide_in")
+	await get_tree().create_timer(0.1).timeout
+
+func detect_click(viewport: Viewport, event: InputEvent, shape_idx: int, ticket: OrderTicket):
+	if !event.is_action_pressed("click"):
+		return
+	remove_ticket(ticket)
+
 func _ready():
-	tickets = []
-	
-	
+	tickets.resize(MAX_TICKETS)
+	tickets.fill(null)
+	ticket_queue = []
 
 func _process(delta):
 	pass
