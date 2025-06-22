@@ -163,7 +163,7 @@ position = Vector2(125, 134)
 
 [node name="TicketRail" parent="." instance=ExtResource("14_0fk2e")]
 z_index = 3
-position = Vector2(-1, 0)
+position = Vector2(1, 0)
 
 [editable path="Seat"]
 [editable path="Seat2"]

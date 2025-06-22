@@ -146,7 +146,6 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8n174"]
-size = Vector2(24, 32)
 
 [node name="OrderTicket" type="Node2D"]
 script = ExtResource("1_ale3g")
@@ -157,19 +156,18 @@ libraries = {
 }
 
 [node name="Ticket" type="Sprite2D" parent="."]
-position = Vector2(48.8311, 125.523)
-rotation = -0.202297
+position = Vector2(2.08165e-12, 1)
 texture = ExtResource("2_4p5t4")
 centered = false
-offset = Vector2(-12, 2)
+offset = Vector2(-10, 2)
 
 [node name="Item" type="Sprite2D" parent="Ticket"]
-position = Vector2(3.33063e-11, 18)
+position = Vector2(0, 14)
 texture = ExtResource("3_w1f6u")
 
 [node name="ClickArea" type="Area2D" parent="Ticket"]
 position = Vector2(0, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ticket/ClickArea"]
-position = Vector2(0, -46)
+position = Vector2(0, -52)
 shape = SubResource("RectangleShape2D_8n174")
