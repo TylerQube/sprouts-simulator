@@ -24,7 +24,11 @@ func spawnCustomer():
 # Called when the node enters the scene tree for the first time.
 var NUM_CUSTS = 10
 var rng = RandomNumberGenerator.new()
+var menu
 func _ready():
+	menu = $Menu
+	menu.set_room("register")
+	
 	for node in get_children():
 		if node is CafeSeat:
 			cafeSeats.append(node)
@@ -35,6 +39,8 @@ func _ready():
 		spawnCustomer()
 		await get_tree().create_timer(rng.randf_range(0.5, 1.5)).timeout
 
+func on_kitchen_button_pressed():
+	pass
 
 func destroy(body):
 	var c = body.get_parent()

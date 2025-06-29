@@ -4,9 +4,16 @@ const MAX_TICKETS = 4
 var ticket_width
 var tickets: Array[OrderTicket] # tickets on visible rail
 var ticket_queue: Array[OrderTicket] # overflow tickets
+var is_animating: bool = false
 
 func is_rail_full():
 	return num_tickets() >= 4
+
+func last_ticket():
+	var tix = tickets.filter(func(t): return t)
+	if len(tix) == 0:
+		return null
+	return tix[len(tix) - 1]
 
 func num_tickets():
 	return len(tickets.filter(func(t): return t))
@@ -23,7 +30,7 @@ func add_ticket(ticket: OrderTicket):
 		if tickets[i-1] == null:
 			continue
 		tickets[i] = tickets[i-1]
-		await slide_ticket(tickets[i])		
+		await slide_ticket(tickets[i])	
 	
 	tickets[0] = ticket
 	
@@ -89,8 +96,12 @@ func print_tix():
 
 func slide_ticket(ticket: OrderTicket):
 	var ticket_offset = (ticket_width + TICKET_GAP_PX)
+	var ticket_sprite = ticket.get_node("Ticket")
+	print(ticket_sprite.global_position)
 	ticket.position.x += ticket_offset
-	ticket.get_node("Ticket").position.x = 0
+	ticket_sprite.position.x = ticket_width / 2
+	print(ticket_sprite.global_position)
+	print()
 	ticket.get_node("AnimationPlayer").play("slide_in")
 	await get_tree().create_timer(0.1).timeout
 

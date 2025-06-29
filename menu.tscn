@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://vnyn4tebmlb7"]
+
+[ext_resource type="Texture2D" uid="uid://4cbt17qa86c4" path="res://assets/ui/menu_bg.png" id="1_2cukh"]
+[ext_resource type="Texture2D" uid="uid://baadcb2250pmx" path="res://assets/ui/kitchen_button.png" id="2_c0lug"]
+[ext_resource type="Script" path="res://Menu.gd" id="2_q8a7v"]
+[ext_resource type="Texture2D" uid="uid://dh4mg1fitc3y1" path="res://assets/ui/kitchen_button_pressed.png" id="3_kekgo"]
+[ext_resource type="Texture2D" uid="uid://d1m7k2nvcls8d" path="res://assets/ui/register_button.png" id="4_om6rp"]
+[ext_resource type="Texture2D" uid="uid://c3fgllu6na115" path="res://assets/ui/register_button_pressed.png" id="5_rakja"]
+
+[node name="menu" type="Sprite2D"]
+z_index = 1
+position = Vector2(128, -13)
+texture = ExtResource("1_2cukh")
+script = ExtResource("2_q8a7v")
+
+[node name="KitchenButton" type="TextureButton" parent="."]
+offset_left = 17.0
+offset_top = -12.0
+offset_right = 42.0
+offset_bottom = 12.0
+toggle_mode = true
+texture_normal = ExtResource("2_c0lug")
+texture_pressed = ExtResource("3_kekgo")
+texture_disabled = ExtResource("3_kekgo")
+
+[node name="RegisterButton" type="TextureButton" parent="."]
+offset_left = -16.0
+offset_top = -12.0
+offset_right = 9.0
+offset_bottom = 12.0
+toggle_mode = true
+texture_normal = ExtResource("4_om6rp")
+texture_pressed = ExtResource("5_rakja")
+texture_disabled = ExtResource("5_rakja")
+
+[connection signal="pressed" from="KitchenButton" to="." method="_on_kitchen_button_pressed"]
+[connection signal="pressed" from="RegisterButton" to="." method="_on_register_button_pressed"]
