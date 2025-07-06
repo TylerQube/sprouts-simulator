@@ -1,10 +1,15 @@
 extends Sprite2D
 
+signal kitchen_pressed
+signal cafe_pressed
+
 func _on_kitchen_button_pressed():
+	set_room("kitchen")
 	emit_signal("kitchen_pressed")
 
-func _on_register_button_pressed():
-	emit_signal("register_pressed")
+func _on_cafe_button_pressed():
+	set_room("cafe")
+	emit_signal("cafe_pressed")
 	
 var kitchen_button
 var register_button
@@ -15,7 +20,13 @@ func _ready():
 	register_button = $RegisterButton
 	
 	btn_dict["kitchen"] = kitchen_button
-	btn_dict["register"] = register_button
+	btn_dict["cafe"] = register_button
+	
+	set_room("cafe")
+	
+	kitchen_button.pressed.connect(_on_kitchen_button_pressed)
+	register_button.pressed.connect(_on_cafe_button_pressed)
+	print("connected buttons")
 
 func set_room(room: String):
 	for b in btn_dict.values():

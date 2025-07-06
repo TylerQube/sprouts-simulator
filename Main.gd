@@ -6,7 +6,7 @@ var cafeSeats: Array[Node2D] = []
 var customer = load("res://Customer.tscn")
 var customers: Array[Customer] = []
 func spawnCustomer():
-	var path = $CustomerPath
+	var path = $CafeLevel/CustomerPath
 	var ticket_rail = $TicketRail
 	var cust = customer.instantiate()
 	cust.ticket_rail = ticket_rail
@@ -15,7 +15,7 @@ func spawnCustomer():
 	
 	for s in cafeSeats:
 		if not s.is_occupied():
-			cust.set_seat(s, $Cafe/CustomerNavMesh)
+			cust.set_seat(s, $CafeLevel/CafeEnv/CustomerNavMesh)
 			break
 
 	path.add_child(cust)
@@ -25,21 +25,44 @@ func spawnCustomer():
 var NUM_CUSTS = 10
 var rng = RandomNumberGenerator.new()
 var menu
+
+var kitchen
+var cafe
+
+var level_mngr
 func _ready():
-	menu = $Menu
-	menu.set_room("register")
+	level_mngr = LevelManager.new()
+	level_mngr.set_root(self)
+	var levels: Array[Node] = [$CafeLevel, $KitchenLevel]
+	level_mngr.set_levels(levels)
+	level_mngr.switch_level($CafeLevel)
 	
-	for node in get_children():
+	
+	cafe = $CafeLevel
+	kitchen = $KitchenLevel
+	kitchen.visible = false
+	
+	menu = $Menu
+	
+	menu.connect("kitchen_pressed", Callable(self, "_on_kitchen_button_pressed"))
+	menu.connect("cafe_pressed", Callable(self, "_on_cafe_button_pressed"))
+	
+	for node in $CafeLevel.get_children():
 		if node is CafeSeat:
 			cafeSeats.append(node)
 	cafeSeats.shuffle()
 			
-	$CustomerPath/ExitZone.connect("body_entered", destroy)	
+	$CafeLevel/CustomerPath/ExitZone.connect("body_entered", destroy)	
 	for i in range(NUM_CUSTS):
 		spawnCustomer()
 		await get_tree().create_timer(rng.randf_range(0.5, 1.5)).timeout
 
-func on_kitchen_button_pressed():
+func _on_kitchen_button_pressed():
+	level_mngr.switch_level($KitchenLevel)
+	pass
+	
+func _on_cafe_button_pressed():
+	level_mngr.switch_level($CafeLevel)	
 	pass
 
 func destroy(body):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmau2kc2pmpqb"]
+[gd_scene load_steps=22 format=3 uid="uid://cmau2kc2pmpqb"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_7q2ng"]
 [ext_resource type="Script" path="res://Player.gd" id="1_mjm18"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b6vaahlue6ajw" path="res://seat.tscn" id="13_c0g2u"]
 [ext_resource type="PackedScene" uid="uid://dqjj87hxxviuc" path="res://ticket_rail.tscn" id="14_0fk2e"]
 [ext_resource type="PackedScene" uid="uid://vnyn4tebmlb7" path="res://menu.tscn" id="15_vgina"]
+[ext_resource type="PackedScene" uid="uid://2wrk5lcp3wli" path="res://kitchen.tscn" id="16_5dmmt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kekha"]
 animations = [{
@@ -106,77 +107,86 @@ offset = Vector2(2.08165e-12, -16)
 position = Vector2(118, 30)
 shape = SubResource("RectangleShape2D_e50dm")
 
-[node name="Cafe" parent="." instance=ExtResource("11_2xiv6")]
+[node name="Menu" parent="." instance=ExtResource("15_vgina")]
+position = Vector2(127, -13)
 
-[node name="CustomerPath" type="Path2D" parent="."]
+[node name="CafeLevel" type="Node2D" parent="."]
+visible = false
+y_sort_enabled = true
+
+[node name="CafeEnv" parent="CafeLevel" instance=ExtResource("11_2xiv6")]
+
+[node name="CustomerPath" type="Path2D" parent="CafeLevel"]
 y_sort_enabled = true
 position = Vector2(-0.0012722, 0)
 scale = Vector2(0.999947, 1)
 curve = SubResource("Curve2D_38qbg")
 
-[node name="OrderZone" type="Area2D" parent="CustomerPath"]
+[node name="OrderZone" type="Area2D" parent="CafeLevel/CustomerPath"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CustomerPath/OrderZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CafeLevel/CustomerPath/OrderZone"]
 z_index = 1
 position = Vector2(154.009, 67)
 shape = SubResource("RectangleShape2D_66cgp")
 debug_color = Color(0.929412, 0, 0.654902, 0.419608)
 
-[node name="ExitZone" type="Area2D" parent="CustomerPath"]
+[node name="ExitZone" type="Area2D" parent="CafeLevel/CustomerPath"]
 position = Vector2(0.00127227, 0)
 scale = Vector2(1.00005, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CustomerPath/ExitZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CafeLevel/CustomerPath/ExitZone"]
 position = Vector2(-26, 99)
 shape = SubResource("RectangleShape2D_krvro")
 
-[node name="Seat" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(210, 104)
 direction = 3
 
-[node name="Seat2" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat2" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(233, 104)
 direction = 2
 
-[node name="Seat3" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat3" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(159, 134)
 
-[node name="Seat4" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat4" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(107, 134)
 
-[node name="Seat5" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat5" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(108, 108)
 direction = 1
 
-[node name="Seat6" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat6" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(65, 134)
 
-[node name="Seat7" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat7" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(50, 134)
 
-[node name="Seat8" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat8" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(27, 134)
 
-[node name="Seat9" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat9" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(144, 134)
 
-[node name="Seat10" parent="." instance=ExtResource("13_c0g2u")]
+[node name="Seat10" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(125, 134)
 
 [node name="TicketRail" parent="." instance=ExtResource("14_0fk2e")]
 z_index = 3
 position = Vector2(0, -25)
 
-[node name="Menu" parent="." instance=ExtResource("15_vgina")]
-position = Vector2(127, -13)
+[node name="KitchenLevel" parent="." instance=ExtResource("16_5dmmt")]
+position = Vector2(-1, -27)
 
-[editable path="Seat"]
-[editable path="Seat2"]
-[editable path="Seat3"]
-[editable path="Seat4"]
-[editable path="Seat5"]
-[editable path="Seat6"]
-[editable path="Seat7"]
-[editable path="Seat8"]
-[editable path="Seat9"]
-[editable path="Seat10"]
+[node name="Area2D" type="Area2D" parent="KitchenLevel"]
+
+[editable path="CafeLevel/Seat"]
+[editable path="CafeLevel/Seat2"]
+[editable path="CafeLevel/Seat3"]
+[editable path="CafeLevel/Seat4"]
+[editable path="CafeLevel/Seat5"]
+[editable path="CafeLevel/Seat6"]
+[editable path="CafeLevel/Seat7"]
+[editable path="CafeLevel/Seat8"]
+[editable path="CafeLevel/Seat9"]
+[editable path="CafeLevel/Seat10"]
