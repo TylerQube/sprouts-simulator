@@ -1,9 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://2wrk5lcp3wli"]
+[gd_scene load_steps=3 format=3 uid="uid://2wrk5lcp3wli"]
 
 [ext_resource type="Texture2D" uid="uid://cveyo1c1o17fu" path="res://assets/level/kitchen/kitchen.png" id="1_h1b31"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0r4bb"]
+vertices = PackedVector2Array(220, 21, 223, 21, 223, 90, 220, 88, 170, 90, 170, 88)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(223, 21, 223, 90, 170, 90, 170, 88, 220, 88, 220, 21)])
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(123, 92)
 texture = ExtResource("1_h1b31")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_0r4bb")
+navigation_layers = 2
+
+[node name="EnterPoint" type="Node2D" parent="."]
+position = Vector2(221, 44)
+
+[node name="BreakfastPoint" type="Node2D" parent="."]
+position = Vector2(171, 89)

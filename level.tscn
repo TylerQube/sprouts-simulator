@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cmau2kc2pmpqb"]
+[gd_scene load_steps=23 format=3 uid="uid://cmau2kc2pmpqb"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_7q2ng"]
 [ext_resource type="Script" path="res://Player.gd" id="1_mjm18"]
@@ -86,17 +86,23 @@ size = Vector2(10.0005, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_krvro"]
 size = Vector2(18, 14)
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ggbhc"]
+vertices = PackedVector2Array(117, -2, 119, -2, 119, 55, 117, 56, 173, 55, 173, 56)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 4, 5, 3), PackedInt32Array(0, 0, 2)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(117, -2, 119, -2, 119, 55, 173, 55, 173, 56, 117, 56, 117, -2)])
+
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
-position = Vector2(0, 27)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_7q2ng")
 
 [node name="Player" type="CharacterBody2D" parent="."]
 y_sort_enabled = true
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_mjm18")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
-position = Vector2(118, 33)
+position = Vector2(2.08165e-12, 2.08165e-12)
 sprite_frames = SubResource("SpriteFrames_kekha")
 animation = &"walk_right"
 frame = 1
@@ -104,15 +110,19 @@ frame_progress = 0.804825
 offset = Vector2(2.08165e-12, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(118, 30)
+position = Vector2(2.08165e-12, 2.08165e-12)
 shape = SubResource("RectangleShape2D_e50dm")
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Player"]
+path_desired_distance = 2.0
+target_desired_distance = 2.0
+
 [node name="Menu" parent="." instance=ExtResource("15_vgina")]
-position = Vector2(127, -13)
+position = Vector2(128, 14)
 
 [node name="CafeLevel" type="Node2D" parent="."]
-visible = false
 y_sort_enabled = true
+position = Vector2(2.08165e-12, 27)
 
 [node name="CafeEnv" parent="CafeLevel" instance=ExtResource("11_2xiv6")]
 
@@ -171,14 +181,22 @@ position = Vector2(144, 134)
 [node name="Seat10" parent="CafeLevel" instance=ExtResource("13_c0g2u")]
 position = Vector2(125, 134)
 
+[node name="EnterPoint" type="Node2D" parent="CafeLevel"]
+position = Vector2(118, 2.08165e-12)
+
+[node name="RegisterPoint" type="Node2D" parent="CafeLevel"]
+position = Vector2(154, 55)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="CafeLevel"]
+navigation_polygon = SubResource("NavigationPolygon_ggbhc")
+
 [node name="TicketRail" parent="." instance=ExtResource("14_0fk2e")]
 z_index = 3
 position = Vector2(0, -25)
 
 [node name="KitchenLevel" parent="." instance=ExtResource("16_5dmmt")]
-position = Vector2(-1, -27)
-
-[node name="Area2D" type="Area2D" parent="KitchenLevel"]
+visible = false
+position = Vector2(2.08165e-12, 2.08165e-12)
 
 [editable path="CafeLevel/Seat"]
 [editable path="CafeLevel/Seat2"]
