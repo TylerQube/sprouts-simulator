@@ -52,13 +52,8 @@ func _ready():
 
 func _physics_process(delta):
 	old_pos = position
-	print()
-	print("currently at: " + str(position))
-	print("going to: " + str(self.agent.target_position))
-	print("next point: " + str(self.agent.get_next_path_position()))
 	var to_dest = self.agent.get_next_path_position() - old_pos
 	var dir = to_dest.normalized()
-	print("dir: " + str(dir))
 	
 	
 	if to_dest.length_squared() > 1:

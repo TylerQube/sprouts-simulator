@@ -72,4 +72,4 @@ func destroy(body):
 		c.queue_free()
 
 func _process(delta):
-	pass
+	level_mngr.process(delta)

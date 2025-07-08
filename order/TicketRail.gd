@@ -53,7 +53,6 @@ func remove_ticket(ticket: OrderTicket, success: bool = false):
 		await player.animation_finished
 		remove_child(ticket)
 	else:
-		print("failed ticket!")
 		fail_ticket(ticket)
 		await get_tree().create_timer(2).timeout
 		
@@ -62,7 +61,6 @@ func remove_ticket(ticket: OrderTicket, success: bool = false):
 	for i in range(ind, 0, -1):
 		if tickets[i-1] == null:
 			continue
-		print("sliding right after removal...")
 		tickets[i] = tickets[i-1]
 		tickets[i-1] = null
 		await slide_ticket(tickets[i])
@@ -75,7 +73,6 @@ func remove_ticket(ticket: OrderTicket, success: bool = false):
 		add_ticket(next_ticket)
 		
 func fail_ticket(ticket: OrderTicket):
-	print(ticket.position.x)
 	var ticket_offset = (ticket_width + TICKET_GAP_PX)
 	ticket.position.x += 28
 	ticket.get_node("Ticket").position.x = 0
@@ -97,11 +94,8 @@ func print_tix():
 func slide_ticket(ticket: OrderTicket):
 	var ticket_offset = (ticket_width + TICKET_GAP_PX)
 	var ticket_sprite = ticket.get_node("Ticket")
-	print(ticket_sprite.global_position)
 	ticket.position.x += ticket_offset
 	ticket_sprite.position.x = ticket_width / 2
-	print(ticket_sprite.global_position)
-	print()
 	ticket.get_node("AnimationPlayer").play("slide_in")
 	await get_tree().create_timer(0.1).timeout
 

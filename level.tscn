@@ -87,9 +87,9 @@ size = Vector2(10.0005, 8)
 size = Vector2(18, 14)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_ggbhc"]
-vertices = PackedVector2Array(117, -2, 119, -2, 119, 55, 117, 56, 173, 55, 173, 56)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 4, 5, 3), PackedInt32Array(0, 0, 2)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(117, -2, 119, -2, 119, 55, 173, 55, 173, 56, 117, 56, 117, -2)])
+vertices = PackedVector2Array(117, -2, 118, -2, 118, 55, 117, -1, 173, 55, 173, 56, 117, 56)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 4, 5, 6), PackedInt32Array(2, 6, 3), PackedInt32Array(3, 0, 0)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(117, -2, 117, -2, 118, -2, 118, 55, 173, 55, 173, 56, 117, 56, 117, -1)])
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
